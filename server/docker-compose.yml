@@ -1,13 +1,18 @@
 version: "3.8"
 services:
   mongodb:
+    container_name: mongo
     image: mongo:5.0.2
     restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
     ports:
       - 27017:27017
     volumes:
       - db:/data/db
   app:
+    container_name: nodeApp
     depends_on:
       - mongodb
     build: .
