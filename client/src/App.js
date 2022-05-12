@@ -1,10 +1,15 @@
 import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import './MainNavbar.js';
+import MainNavbar from './MainNavbar.js';
 
 function App() {
 
   return (
     <div className="App">
+    {/* example NavBar */}
+    <MainNavbar/>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
