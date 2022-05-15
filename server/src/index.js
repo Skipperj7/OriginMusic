@@ -7,6 +7,9 @@ const multer = require('multer');
 const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
+const { Audd } = require('audd.io');
+const audd = new Audd('bb643879afce71f0cac3bc9aeb844c11');//hard coded throw away key will expire May 28th
+const fs = require('fs');
 
 const app = express();
 //using ejs to test (replaced by react front end)
@@ -64,6 +67,23 @@ app.get('/', (req,res)=>{
 // @desc Uploads file to db
 app.post('/upload', upload.single('file'), (req,res)=>{
   res.json({file: req.file});
+});
+
+if (!fs.existsSync('./tmp/data/musicSearch/')){
+  fs.mkdirSync('./tmp/data/musicSearch/', { recursive: true });
+}
+// @route POST /
+// @desc Uploads file to db
+app.post('/getSong', multer({ dest: './tmp/data/musicSearch/' }).single('file'), (req,res)=>{
+
+
+  audd.recognize.fromFile('./tmp/data/musicSearch/'+req.file.filename).then((response) => {
+    const result = response.result;
+    if (result){ console.log(`That song is ${result.title} by ${result.artist}`);
+      res.json({"song":'That song is '+result.title.toString()+' by '+result.artist.toString()});}
+    else console.log('Unable to match that song :(');
+  }, console.log);
+  fs.unlinkSync('./tmp/data/musicSearch/'+req.file.filename);
 });
 
 // @route GET /image/:filename
