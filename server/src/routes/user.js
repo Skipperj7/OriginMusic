@@ -27,7 +27,6 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log("here");
       return res.status(400).json({
         errors: errors.array()
       });
@@ -82,6 +81,11 @@ router.post(
   }
 );
 
+/**
+ * @method - POST
+ * @description - Login User
+ * @param - /user/login
+ */
 router.post(
   "/login",
   [
@@ -144,7 +148,7 @@ router.post(
 );
 
 /**
- * @method - POST
+ * @method - GET
  * @description - Get LoggedIn User
  * @param - /user/me
  */
@@ -156,6 +160,26 @@ router.get("/me", auth, async (req, res) => {
     res.json(user);
   } catch (e) {
     res.send({ message: "Error in Fetching user" });
+  }
+});
+
+/**
+ * @method - POST
+ * @description - Change Email
+ * @param - /user/changeEmail
+ */
+
+router.post("/changeEmail",[
+  check("email", "Please enter a valid email").isEmail()], auth, async (req, res) => {
+  try {
+    // request.user is getting fetched from Middleware after token authentication
+    const user = await User.findById(req.user.id);
+    const { email } = req.body;
+    user.email=email;
+    await user.save(); //this might report unresolved but it lies
+    res.json(user);
+  } catch (e) {
+    res.send({ message: e});
   }
 });
 
