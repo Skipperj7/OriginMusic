@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const multer = require('multer');
+const auth = require("../auth");
+const User = require('../model/User');
+
 
 const mongoURI = "mongodb://localhost:27017/uploads";
 
@@ -21,6 +24,11 @@ conn.once('open', () => {
   gfs.collection('uploads');
 });
 
+let updatedMetadata;
+
+const updateMetadata = id => {
+  updatedMetadata = id;
+};
 // Create storage engine
 const storage = new GridFsStorage({
   url: mongoURI,
@@ -31,9 +39,11 @@ const storage = new GridFsStorage({
           return reject(err);
         }
         const filename = buf.toString('hex') + path.extname(file.originalname);
+
         const fileInfo = {
           filename: filename,
-          bucketName: 'uploads'
+          bucketName: 'uploads',
+          metadata: updatedMetadata ? updatedMetadata : null
         };
         resolve(fileInfo);
       });
@@ -42,10 +52,13 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-
 // @route POST /
 // @desc Uploads file to db
-router.post('/', upload.single('file'), (req,res)=>{
+router.post('/', auth,  async function (req, res, next) {
+  const user = await User.findById(req.user.id);
+  updateMetadata(user.username,);
+  next();
+}, upload.single('file'), async (req,res)=>{
   res.json({file: req.file});
 });
 
