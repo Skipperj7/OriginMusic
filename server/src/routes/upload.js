@@ -26,20 +26,24 @@ conn.once('open', () => {
 
 let updatedMetadata;
 
-const updateMetadata = id => {
-  updatedMetadata = id;
+const updateMetadata = (id,name) => {
+  updatedMetadata= {
+    artist: id,
+    songName: name
+  }
 };
 // Create storage engine
 const storage = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
+      crypto.randomBytes(16, async (err, buf) => {
         if (err) {
           return reject(err);
         }
         const filename = buf.toString('hex') + path.extname(file.originalname);
-
+        const user = await User.findById(req.user.id);
+        updateMetadata(user.username, req.body.songName);
         const fileInfo = {
           filename: filename,
           bucketName: 'uploads',
@@ -50,15 +54,11 @@ const storage = new GridFsStorage({
     });
   }
 });
-const upload = multer({ storage });
+const upload = multer({ storage});
 
 // @route POST /
 // @desc Uploads file to db
-router.post('/', auth,  async function (req, res, next) {
-  const user = await User.findById(req.user.id);
-  updateMetadata(user.username,);
-  next();
-}, upload.single('file'), async (req,res)=>{
+router.post('/', auth , upload.single('file'), async (req,res)=>{
   res.json({file: req.file});
 });
 
