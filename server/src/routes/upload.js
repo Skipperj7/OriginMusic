@@ -26,12 +26,36 @@ conn.once('open', () => {
 
 let updatedMetadata;
 
-const updateMetadata = (id,name) => {
+const updateMetadata = (id,name,sn) => {
   updatedMetadata= {
     artist: id,
-    songName: name
+    songName: name,
+    searchName:sn
   }
 };
+
+//Johannes Fahrenkrug
+//https://stackoverflow.com/questions/44833817/mongodb-full-and-partial-text-search
+function createEdgeNGrams(str) {
+  if (str && str.length > 3) {
+    const minGram = 3
+    const maxGram = str.length
+
+    return str.split(" ").reduce((ngrams, token) => {
+      if (token.length > minGram) {
+        for (let i = minGram; i <= maxGram && i <= token.length; ++i) {
+          ngrams = [...ngrams, token.substr(0, i)];
+        }
+      } else {
+        ngrams = [...ngrams, token];
+      }
+      return ngrams;
+    }, []).join(" ")
+  }
+
+  return str;
+}
+
 // Create storage engine
 const storage = new GridFsStorage({
   url: mongoURI,
@@ -43,7 +67,7 @@ const storage = new GridFsStorage({
         }
         const filename = buf.toString('hex') + path.extname(file.originalname);
         const user = await User.findById(req.user.id);
-        updateMetadata(user.username, req.body.songName);
+        updateMetadata(user.username, req.body.songName,createEdgeNGrams(req.body.songName));
         const fileInfo = {
           id:buf.toString('hex'),
           filename: filename,
