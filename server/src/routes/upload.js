@@ -8,7 +8,7 @@ const Grid = require('gridfs-stream');
 const multer = require('multer');
 const auth = require("../auth");
 const User = require('../model/User');
-
+const Comment = require('../model/Comment');
 
 const mongoURI = "mongodb://localhost:27017/uploads";
 
@@ -30,7 +30,7 @@ const updateMetadata = (id,name,sn) => {
   updatedMetadata= {
     artist: id,
     songName: name,
-    searchName:sn
+    searchName:sn,
   }
 };
 
@@ -68,6 +68,13 @@ const storage = new GridFsStorage({
         const filename = buf.toString('hex') + path.extname(file.originalname);
         const user = await User.findById(req.user.id);
         updateMetadata(user.username, req.body.songName,createEdgeNGrams(req.body.songName));
+        const fn= buf.toString('hex');
+        let comments=new Comment({
+          songID:fn
+
+      });
+        console.log(comments);
+        await comments.save();
         const fileInfo = {
           id:buf.toString('hex'),
           filename: filename,

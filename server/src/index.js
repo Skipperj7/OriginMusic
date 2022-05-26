@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const upload = require("./routes/upload");
 const collections = require("./routes/collections");
 const search=require("./routes/queries");
+const comment=require("./routes/comment");
 // Initiate Mongo Server
 InitiateMongoServer();
 
@@ -50,7 +51,12 @@ app.use("/collections", collections);
  * Method - *
  */
 app.use("/search", search);
-
+/**
+ * Router Middleware
+ * Router - /comment/*
+ * Method - *
+ */
+app.use("/comment", comment);
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);
