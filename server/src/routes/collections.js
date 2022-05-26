@@ -1,0 +1,92 @@
+const express = require("express");
+const router = express.Router();
+const auth = require("../auth");
+
+const User = require("../model/User");
+const mongoose = require('mongoose');
+const Grid = require('gridfs-stream');
+
+const mongoURI = "mongodb://localhost:27017/uploads";
+
+// Create mongo connection
+const conn = mongoose.createConnection(mongoURI);
+
+// Init gfs
+let gfs;
+
+conn.once('open', () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('uploads');
+});
+/**
+ * @method - POST
+ * @description - Like
+ * @param - /collections/like
+ */
+router.post("/like", auth, async (req, res) => {
+  try {
+    // request.user is getting fetched from Middleware after token authentication
+    const user = await User.findById(req.user.id);
+    const { songID } = req.body;
+    if(songID==null){
+      return res.status(400).json({
+        message: "Please Enter Song ID"
+      });
+    }
+    let song = await gfs.files.findOne({_id:songID});
+    if (!song)
+      return res.status(400).json({
+        message: "Song Does Not Exist"
+      });
+    if(!user.likes.includes(songID)) {
+      user.likes.push(songID);
+    }
+    else{
+      user.likes.remove(songID);
+    }
+    await user.save(); //this might report unresolved but it lies
+    res.json(user);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+/**
+ * @method - POST
+ * @description - follow
+ * @param - /collections/follow
+ */
+
+router.post("/follow", auth, async (req, res) => {
+  try {
+    const { artistName } = req.body;
+    if(artistName==null){
+      return res.status(400).json({
+        message: "Please Enter Artist Name"
+      });
+    }
+    let artist = await User.findOne({
+      "username":artistName
+    });
+    if (!artist)
+      return res.status(400).json({
+        message: "Artist Does Not Exist"
+      });
+    // request.user is getting fetched from Middleware after token authentication
+    const user = await User.findById(req.user.id);
+
+    if(!user.following.includes(artistName)) {
+      user.following.push(artistName);
+    }
+    else{
+      user.following.remove(artistName);
+    }
+    await user.save(); //this might report unresolved but it lies
+    res.json(user);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+module.exports = router;

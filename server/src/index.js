@@ -4,7 +4,7 @@ const user = require("./routes/user");
 const InitiateMongoServer = require("./config/db");
 const methodOverride = require('method-override');
 const upload = require("./routes/upload");
-
+const collections = require("./routes/collections");
 // Initiate Mongo Server
 InitiateMongoServer();
 
@@ -37,6 +37,12 @@ app.use("/user", user);
  * Method - *
  */
 app.use("/upload", upload);
+/**
+ * Router Middleware
+ * Router - /collections/*
+ * Method - *
+ */
+app.use("/collections", collections);
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);

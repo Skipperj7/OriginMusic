@@ -45,6 +45,7 @@ const storage = new GridFsStorage({
         const user = await User.findById(req.user.id);
         updateMetadata(user.username, req.body.songName);
         const fileInfo = {
+          id:buf.toString('hex'),
           filename: filename,
           bucketName: 'uploads',
           metadata: updatedMetadata ? updatedMetadata : null
