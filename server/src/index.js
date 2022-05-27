@@ -7,6 +7,7 @@ const upload = require("./routes/upload");
 const collections = require("./routes/collections");
 const search=require("./routes/queries");
 const comment=require("./routes/comment");
+const cookieParser = require("cookie-parser");
 // Initiate Mongo Server
 InitiateMongoServer();
 
@@ -16,6 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.set('view engine','ejs');//using ejs to test (replaced by react front end)

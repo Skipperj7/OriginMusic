@@ -69,6 +69,7 @@ router.post(
         },
         (err, token) => {
           if (err) throw err;
+          res.cookie('token', token, { httpOnly: true });
           res.status(200).json({
             token
           });
