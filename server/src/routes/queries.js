@@ -31,18 +31,22 @@ conn.once('open', async () => {
 
 });
 
+let getSong= async function (search) {
+  const query = {$text: {$search: search}};
+  const cursor = await gfs.files.find(query).sort(sort).project(projection);
+  const vals = await cursor.toArray();
+  return vals;
+}//
+
+
 /**
  * @method - GET
  * @description - search for song by name
  * @param - /search/song
  */
-const util = require('util');
 router.get("/song", async (req, res) => {
   try {
-
-    const query = { $text: { $search: req.body.songName} };
-    const cursor = await gfs.files.find(query).sort(sort).project(projection);
-    const vals=await cursor.toArray();
+    const vals=await getSong(req.body.songName); //full text search abstracted to function
     res.json(vals);
 
      //full search
@@ -56,7 +60,7 @@ if (!fs.existsSync('./tmp/data/musicSearch/')){
   fs.mkdirSync('./tmp/data/musicSearch/', { recursive: true });
 }
 // @route POST /
-// @desc Uploads file to db
+// @desc Search for song name
 router.post('/audioSearch', multer({ dest: './tmp/data/musicSearch/' }).single('file'), (req,res)=>{
 
 
@@ -69,5 +73,18 @@ router.post('/audioSearch', multer({ dest: './tmp/data/musicSearch/' }).single('
   fs.unlinkSync('./tmp/data/musicSearch/'+req.file.filename);
 });
 
+// @route POST /
+// @desc Search songs in db by name
+router.post('/findByAudio', multer({ dest: './tmp/data/musicSearch/' }).single('file'), (req,res)=>{
 
+  audd.recognize.fromFile('./tmp/data/musicSearch/'+req.file.filename).then(async (response) => {
+    const result = response.result;
+    if (result) {
+      console.log(result.title.toString());
+      const vals = await getSong(result.title.toString()); //full text search abstracted to function
+      res.json(vals);
+    } else console.log('Unable to match that song :(');
+  }, console.log);
+  fs.unlinkSync('./tmp/data/musicSearch/'+req.file.filename);
+});
 module.exports = router;
