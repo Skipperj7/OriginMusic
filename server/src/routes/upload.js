@@ -67,14 +67,15 @@ const storage = new GridFsStorage({
         }
         const filename = buf.toString('hex') + path.extname(file.originalname);
         const user = await User.findById(req.user.id);
-        updateMetadata(user.username, req.body.songName,createEdgeNGrams(req.body.songName));
+        updateMetadata(user.username, req.body.songName,createEdgeNGrams(req.body.songName)+" "+createEdgeNGrams(user.username));
         const fn= buf.toString('hex');
         let comments=new Comment({
           songID:fn
 
       });
-        console.log(comments);
         await comments.save();
+        user.uploadedSongs.push(fn);
+        await user.save();
         const fileInfo = {
           id:buf.toString('hex'),
           filename: filename,

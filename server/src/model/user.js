@@ -16,6 +16,11 @@ const UserSchema = mongoose.Schema({
   },
   likes:[String],
   following:[String],
+  uploadedSongs:[String],
+  profilePic:{
+    type: String,
+    default: "Default"
+  },
   playlists:[
     new Schema({
       title:{type:String},
