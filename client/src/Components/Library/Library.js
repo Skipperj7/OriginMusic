@@ -1,6 +1,7 @@
 import { Container, Row, Col, Nav, Button, ButtonGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Library.css'
+import RowOfMusicBoxes from '../Music/RowOfMusicBoxes';
 
 
 function Library() {
@@ -17,6 +18,8 @@ function Library() {
       </ButtonGroup>
       </div>
     </Container>
+    <hr style={{ width: "100%"}} />
+    <RowOfMusicBoxes />
       </div>
     );
   }
