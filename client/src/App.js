@@ -1,8 +1,11 @@
-import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import './MainNavbar.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainNavbar from './MainNavbar.js';
+import Home from './Components/Home/Home.js'
+import ProfileHome from './Components/Profile/Home/ProfileMain.js';
+import Library from './Components/Library/Library';
 
 function App() {
 
@@ -10,20 +13,15 @@ function App() {
     <div className="App">
     {/* example NavBar */}
     <MainNavbar/>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+            {/* used to be called Switch - see https://stackoverflow.com/questions/63124161/attempted-import-error-switch-is-not-exported-from-react-router-dom */}
+            <Routes>
+              <Route path='/' element={<Home/>} />
+              <Route path='/library' element={<Library/>}/>
+              <Route path='/profile/home' element={<ProfileHome/>}/>
+                {/* <Route path='/about' component={Contact}/> */}
+            </Routes>
+        </BrowserRouter>
     </div>
   );
 }

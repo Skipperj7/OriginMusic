@@ -13,8 +13,8 @@ function MainNavbar() {
           style={{ maxHeight: '100px' }}
           navbarScroll
         >
-          <Nav.Link href="#home">Home</Nav.Link>
-          <Nav.Link href="#library">Library</Nav.Link>
+          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/library">Library</Nav.Link>
         </Nav>
         <Form className="d-flex">
           <FormControl
@@ -27,11 +27,11 @@ function MainNavbar() {
         </Form>
         {/* MyProfile deserves its own component */}
         <NavDropdown title="MyProfile" id="basic-nav-dropdown">
-          <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+          <NavDropdown.Item href="/profile/home">Profile</NavDropdown.Item>
+          <NavDropdown.Item href="/profile/likes">Likes</NavDropdown.Item>
+          <NavDropdown.Item href="/profile/playlists">Playlists</NavDropdown.Item>
+          {/* <NavDropdown.Divider />
+          <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
         </NavDropdown>
       </Navbar.Collapse>
     </Container>
