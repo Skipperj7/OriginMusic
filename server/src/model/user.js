@@ -21,12 +21,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     default: "Default"
   },
-  playlists:[
-    new Schema({
-      title:{type:String},
-      songs:[String]
-    })
-  ],
+  playlistIDs:[String],
   createdAt: {
     type: Date,
     default: Date.now()

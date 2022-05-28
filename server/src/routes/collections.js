@@ -5,6 +5,9 @@ const auth = require("../auth");
 const User = require("../model/User");
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
+const Playlist = require("../model/Playlist");
+const crypto = require('crypto');
+const path = require('path');
 
 const mongoURI = "mongodb://localhost:27017/uploads";
 
@@ -84,6 +87,106 @@ router.post("/follow", auth, async (req, res) => {
     }
     await user.save(); //this might report unresolved but it lies
     res.json(user);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+
+/**
+ * @method - POST
+ * @description - create playlist
+ * @param - /collections/createPlaylist
+ */
+
+router.post("/createPlaylist", auth, async (req, res) => {
+  try {
+    const {title}=req.body;
+    const user = await User.findById(req.user.id);
+    if (!user)
+      return res.status(400).json({
+        message: "Couldn't find user account"
+      });
+    let ID;
+    crypto.randomBytes(16, async (err, buf) => {
+      if (err) {
+        res.send({ message: err})
+      }
+       ID = buf.toString('hex');
+      let playlist = new Playlist({
+        title:title,
+        pID:ID
+      });
+
+
+      await playlist.save();
+      user.playlistIDs.push(ID);
+      await user.save();
+      res.json(playlist);
+    });
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+/**
+ * @method - POST
+ * @description - add song to playlist
+ * @param - /collections/playlist/addsong
+ */
+
+router.post("/playlist/addsong", auth, async (req, res) => {
+  try {
+    const {songID,playlistID}=req.body;
+    const user = await User.findById(req.user.id);
+    if (!user)
+      return res.status(400).json({
+        message: "Couldn't find user account"
+      });
+    const playlist = await Playlist.findOne({pID:playlistID});
+    if (!user)
+      return res.status(400).json({
+        message: "Couldn't find playlist"
+      });
+    if(!playlist.songs.includes(songID)) {
+      playlist.songs.push(songID);
+
+
+      await playlist.save();
+    }
+
+    res.json(playlist);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+
+/**
+ * @method - POST
+ * @description - add song to playlist
+ * @param - /collections/playlist/removesong
+ */
+
+router.post("/playlist/removesong", auth, async (req, res) => {
+  try {
+    const {songID,playlistID}=req.body;
+    const user = await User.findById(req.user.id);
+    if (!user)
+      return res.status(400).json({
+        message: "Couldn't find user account"
+      });
+    const playlist = await Playlist.findOne({pID:playlistID});
+    if (!user)
+      return res.status(400).json({
+        message: "Couldn't find playlist"
+      });
+    if(playlist.songs.includes(songID)) {
+      playlist.songs.remove(songID);
+      await playlist.save();
+    }
+
+    res.json(playlist);
   } catch (e) {
     res.send({ message: e});
   }

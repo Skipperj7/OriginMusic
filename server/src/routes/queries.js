@@ -6,6 +6,8 @@ const { Audd } = require('audd.io');
 const audd = new Audd('bb643879afce71f0cac3bc9aeb844c11');//hard coded throw away key will expire May 28th
 const fs = require('fs');
 const multer = require('multer');
+const Comment = require('../model/Comment');
+const Playlist = require('../model/Playlist');
 
 const mongoURI = "mongodb://localhost:27017/uploads";
 
@@ -87,4 +89,21 @@ router.post('/findByAudio', multer({ dest: './tmp/data/musicSearch/' }).single('
   }, console.log);
   fs.unlinkSync('./tmp/data/musicSearch/'+req.file.filename);
 });
+/**
+ * @method - GET
+ * @description - get songs in a playlist
+ * @param - /search/playlist
+ */
+router.get("/playlist", async (req, res) => {
+  try {
+    const playlist=await Playlist.findOne({pID:req.body.playlistID})
+    res.json(playlist);
+
+    //full search
+
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
 module.exports = router;
