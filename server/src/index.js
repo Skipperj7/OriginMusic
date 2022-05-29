@@ -1,35 +1,43 @@
-/*
-const express = require('express');
+const express = require("express");
+const bodyParser = require("body-parser");
+const user = require("./routes/user");
+const InitiateMongoServer = require("./config/db");
+const methodOverride = require('method-override');
+const upload = require("./routes/upload");
+
+// Initiate Mongo Server
+InitiateMongoServer();
 
 const app = express();
-const port = 420;
 
-app.get('/', (req, res) => {
-  console.log('Received get request!');
-  res.send('Hello World!');
+// PORT
+const PORT = process.env.PORT || 4000;
+
+// Middleware
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
+app.set('view engine','ejs');//using ejs to test (replaced by react front end)
+app.set('views', './src/views'); //set to ./views for docker, ./src/views for dev
+
+// @route GET /
+// @desc Loads form
+app.get('/', (req,res)=>{
+  res.render('index');
 });
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
-});
+/**
+ * Router Middleware
+ * Router - /user/*
+ * Method - *
  */
+app.use("/user", user);
+/**
+ * Router Middleware
+ * Router - /upload/*
+ * Method - *
+ */
+app.use("/upload", upload);
 
-const { MongoClient } = require("mongodb");
-// Connection URI
-const uri =
-    "mongodb://mongo:27017/";
-// Create a new MongoClient
-const client = new MongoClient(uri);
-async function run() {
-    try {
-        // Connect the client to the server
-        await client.connect();
-        // Establish and verify connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Connected successfully to server");
-    } finally {
-        // Ensures that the client will close when you finish/error
-        await client.close();
-    }
-}
-run().catch(console.dir);
+app.listen(PORT, (req, res) => {
+  console.log(`Server Started at PORT ${PORT}`);
+});
