@@ -2,7 +2,8 @@ import { Container, Nav, Navbar, NavDropdown, Form, FormControl, Button } from '
 
 function MainNavbar() {
 
-    // mostly copied and then inspired from https://react-bootstrap.github.io/components/navbar/
+    // mostly copied and then inspired from 
+    // https://react-bootstrap.github.io/components/navbar/
     return (
     <Navbar bg="dark" variant="dark" expand="lg">
     <Container fluid>

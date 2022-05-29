@@ -10,10 +10,10 @@ function RowOfMusicBoxes(props) {
     return (
       <div className="RowOfMusicBoxes">
       <p>IMHERE</p>
-      <Container>
+      <Container fluid>
         <Row md ={maxBoxesInRow}>
         {/* placeholder boxes - need a variable amount of components */}
-          <Col><SmallMusicBox /></Col>
+          <Col><SmallMusicBox name="this one is different"/></Col>
           <Col><SmallMusicBox /></Col>
           <Col><SmallMusicBox /></Col>
           <Col><SmallMusicBox /></Col>

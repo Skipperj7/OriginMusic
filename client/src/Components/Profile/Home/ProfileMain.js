@@ -1,8 +1,14 @@
 import Image from 'react-bootstrap/Image';
-import logo from '../../../logo.svg';
+import { useContext } from 'react';
+import { AuthContext } from '../../../App.js';
 
 
 function ProfileMain() {
+    const authContextValue = useContext(AuthContext);
+
+    // gather variables from authContextValue - this is a little scuffed
+    const isAuthenticated = authContextValue.state.isAuthenticated;
+    const dispatch = authContextValue.dispatch;
 
     return (
         <div>
