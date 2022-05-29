@@ -1,0 +1,10 @@
+/* .loginForm {
+    text-align: center; 
+} */
+
+.loginContainer {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
