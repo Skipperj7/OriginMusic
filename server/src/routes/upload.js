@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const multer = require('multer');
+const auth = require("../auth");
+const User = require('../model/User');
+const Comment = require('../model/Comment');
 
 const mongoURI = "mongodb://localhost:27017/uploads";
 
@@ -21,31 +24,74 @@ conn.once('open', () => {
   gfs.collection('uploads');
 });
 
+let updatedMetadata;
+
+const updateMetadata = (id,name,sn) => {
+  updatedMetadata= {
+    artist: id,
+    songName: name,
+    searchName:sn,
+  }
+};
+
+//Johannes Fahrenkrug
+//https://stackoverflow.com/questions/44833817/mongodb-full-and-partial-text-search
+function createEdgeNGrams(str) {
+  if (str && str.length > 3) {
+    const minGram = 3
+    const maxGram = str.length
+
+    return str.split(" ").reduce((ngrams, token) => {
+      if (token.length > minGram) {
+        for (let i = minGram; i <= maxGram && i <= token.length; ++i) {
+          ngrams = [...ngrams, token.substr(0, i)];
+        }
+      } else {
+        ngrams = [...ngrams, token];
+      }
+      return ngrams;
+    }, []).join(" ")
+  }
+
+  return str;
+}
+
 // Create storage engine
 const storage = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
     return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
+      crypto.randomBytes(16, async (err, buf) => {
         if (err) {
           return reject(err);
         }
         const filename = buf.toString('hex') + path.extname(file.originalname);
+        const user = await User.findById(req.user.id);
+        updateMetadata(user.username, req.body.songName,createEdgeNGrams(req.body.songName)+" "+createEdgeNGrams(user.username));
+        const fn= buf.toString('hex');
+        let comments=new Comment({
+          songID:fn
+
+      });
+        await comments.save();
+        user.uploadedSongs.push(fn);
+        await user.save();
         const fileInfo = {
+          id:buf.toString('hex'),
           filename: filename,
-          bucketName: 'uploads'
+          bucketName: 'uploads',
+          metadata: updatedMetadata ? updatedMetadata : null
         };
         resolve(fileInfo);
       });
     });
   }
 });
-const upload = multer({ storage });
-
+const upload = multer({ storage});
 
 // @route POST /
 // @desc Uploads file to db
-router.post('/', upload.single('file'), (req,res)=>{
+router.post('/', auth , upload.single('file'), async (req,res)=>{
   res.json({file: req.file});
 });
 

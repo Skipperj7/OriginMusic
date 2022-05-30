@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Replace this with your MONGOURI.
-const MONGOURI = "mongodb://localhost:27017/reg-login-api";
+const MONGOURI = "mongodb://localhost:27017/data";
 
 const InitiateMongoServer = async () => {
   try {

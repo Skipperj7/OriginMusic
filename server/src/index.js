@@ -4,7 +4,10 @@ const user = require("./routes/user");
 const InitiateMongoServer = require("./config/db");
 const methodOverride = require('method-override');
 const upload = require("./routes/upload");
-
+const collections = require("./routes/collections");
+const search=require("./routes/queries");
+const comment=require("./routes/comment");
+const cookieParser = require("cookie-parser");
 // Initiate Mongo Server
 InitiateMongoServer();
 
@@ -14,6 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.set('view engine','ejs');//using ejs to test (replaced by react front end)
@@ -37,7 +41,26 @@ app.use("/user", user);
  * Method - *
  */
 app.use("/upload", upload);
+/**
+ * Router Middleware
+ * Router - /collections/*
+ * Method - *
+ */
+app.use("/collections", collections);
+/**
+ * Router Middleware
+ * Router - /search/*
+ * Method - *
+ */
+app.use("/search", search);
+/**
+ * Router Middleware
+ * Router - /comment/*
+ * Method - *
+ */
+app.use("/comment", comment);
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);
 });
+
