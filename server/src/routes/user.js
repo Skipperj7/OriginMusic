@@ -1,4 +1,3 @@
-console.log(process.cwd())
 const express = require("express");
 const { check, validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
@@ -135,6 +134,7 @@ router.post(
         },
         (err, token) => {
           if (err) throw err;
+          res.cookie('token', token, { httpOnly: true });
           res.status(200).json({
             token
           });

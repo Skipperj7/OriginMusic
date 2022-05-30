@@ -8,6 +8,7 @@ const collections = require("./routes/collections");
 const search=require("./routes/queries");
 const comment=require("./routes/comment");
 const cookieParser = require("cookie-parser");
+var cors = require('cors')
 // Initiate Mongo Server
 InitiateMongoServer();
 
@@ -17,6 +18,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
+app.use(cors())
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
