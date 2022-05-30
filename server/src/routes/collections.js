@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../auth");
 
-const User = require("../model/User");
+const User = require("../model/user");
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
-const Playlist = require("../model/Playlist");
+const Playlist = require("../model/playlist");
 const crypto = require('crypto');
 const path = require('path');
 
-const mongoURI = "mongodb://localhost:27017/uploads";
+const mongoURI = "mongodb://mongo:27017/uploads";
 
 // Create mongo connection
 const conn = mongoose.createConnection(mongoURI);

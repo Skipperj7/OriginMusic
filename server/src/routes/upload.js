@@ -7,10 +7,10 @@ const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const multer = require('multer');
 const auth = require("../auth");
-const User = require('../model/User');
-const Comment = require('../model/Comment');
+const User = require('../model/user');
+const Comment = require('../model/comment');
 
-const mongoURI = "mongodb://localhost:27017/uploads";
+const mongoURI = "mongodb://mongo:27017/uploads";
 
 // Create mongo connection
 const conn = mongoose.createConnection(mongoURI);

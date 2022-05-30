@@ -1,3 +1,4 @@
+console.log(process.cwd())
 const express = require("express");
 const { check, validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
@@ -5,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const auth = require("../auth");
 
-const User = require("../model/User");
+const User = require("../model/user");//docker ../model/user, dev ../model/User
 
 /**
  * @method - POST

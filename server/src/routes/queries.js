@@ -6,10 +6,10 @@ const { Audd } = require('audd.io');
 const audd = new Audd('bb643879afce71f0cac3bc9aeb844c11');//hard coded throw away key will expire May 28th
 const fs = require('fs');
 const multer = require('multer');
-const Comment = require('../model/Comment');
-const Playlist = require('../model/Playlist');
+const Comment = require('../model/comment');
+const Playlist = require('../model/playlist');
 
-const mongoURI = "mongodb://localhost:27017/uploads";
+const mongoURI = "mongodb://mongo:27017/uploads";
 
 // Create mongo connection
 const conn = mongoose.createConnection(mongoURI);

@@ -20,8 +20,7 @@ const PORT = process.env.PORT || 4000;
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
-app.set('view engine','ejs');//using ejs to test (replaced by react front end)
-app.set('views', './src/views'); //set to ./views for docker, ./src/views for dev
+
 
 // @route GET /
 // @desc Loads form
