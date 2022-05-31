@@ -15,7 +15,7 @@ function MainNavbar() {
           navbarScroll
         >
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/library">Library</Nav.Link>
+          <Nav.Link href="/library/overview">Library</Nav.Link>
         </Nav>
         <Form className="d-flex">
           <FormControl
@@ -29,8 +29,9 @@ function MainNavbar() {
         {/* MyProfile deserves its own component */}
         <NavDropdown title="MyProfile" id="basic-nav-dropdown">
           <NavDropdown.Item href="/profile/home">Profile</NavDropdown.Item>
-          <NavDropdown.Item href="/profile/likes">Likes</NavDropdown.Item>
-          <NavDropdown.Item href="/profile/playlists">Playlists</NavDropdown.Item>
+          <NavDropdown.Item href="/library/likes">Likes</NavDropdown.Item>
+          <NavDropdown.Item href="/library/playlists">Playlists</NavDropdown.Item>
+          <NavDropdown.Item href="/library/following">Following</NavDropdown.Item>
           {/* <NavDropdown.Divider />
           <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
         </NavDropdown>

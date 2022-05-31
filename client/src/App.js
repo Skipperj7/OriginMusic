@@ -6,11 +6,14 @@ import MainNavbar from './Components/NavBar/MainNavbar.js';
 import Home from './Components/Home/Home.js'
 import ProfileHome from './Components/Profile/Home/ProfileMain.js';
 import Library from './Components/Library/Library.js';
+import Likes from './Components/Library/Likes/Likes';
+import Playlists from './Components/Library/Playlists/Playlists';
+import Following from './Components/Library/Following/Following';
 import Login from './Components/Login/Login.js';
 
 export const AuthContext = createContext();
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   user: null,
   token: null
 };
@@ -51,7 +54,10 @@ function App() {
             {/* used to be called Switch - see https://stackoverflow.com/questions/63124161/attempted-import-error-switch-is-not-exported-from-react-router-dom */}
             <Routes>
               <Route path='/' element={<Home/>} />
-              <Route path='/library' element={<Library/>}/>
+              <Route path='/library/overview' element={<Library/>}/>
+              <Route path='/library/likes' element={<Likes/>}/>
+              <Route path='/library/playlists' element={<Playlists/>}/>
+              <Route path='/library/following' element={<Following/>}/>
               <Route path='/profile/home' element={<ProfileHome/>}/>
                 {/* <Route path='/about' component={Contact}/> */}
             </Routes>
