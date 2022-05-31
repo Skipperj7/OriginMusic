@@ -122,4 +122,23 @@ router.get('/audio/:filename', (req, res) => {
     }
   });
 });
-module.exports = router;
+
+
+// @route GET /audio/:filename
+// @desc Display Audio File
+router.get('/song', async (req, res) => {
+  try {
+    const {songID} = req.body
+    if(songID==null){
+      return res.status(400).json({
+        message: "Please Enter Song ID"
+      });
+    }
+    // request.user is getting fetched from Middleware after token authentication
+    let song = await gfs.files.findOne({_id:songID});
+    res.json(song);
+  } catch (e) {
+    res.send({message: "Error in Fetching user"});
+  }});
+
+  module.exports = router;

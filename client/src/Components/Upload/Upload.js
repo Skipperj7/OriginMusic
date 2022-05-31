@@ -82,6 +82,8 @@ class Upload extends Component {
         };
         const response2 = await fetch('http://localhost:4000/images/', requestOptions2);
         const data2 = await response2.json();
+        console.log(data)
+        console.log(data2)
     };
 
 

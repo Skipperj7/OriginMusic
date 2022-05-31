@@ -1,9 +1,10 @@
 import React from 'react';
 import {Form, Button, Container} from 'react-bootstrap';
 import './Login.css';
-import { AuthContext } from '../../App.js';
+import { AuthContext } from '../../context.js';
 
-class  Login extends React.Component {
+class Login extends React.Component {
+    static contextType = AuthContext;
     constructor(props) {
         super(props);
         // initialize username and password so form is controlled
@@ -41,12 +42,27 @@ class  Login extends React.Component {
           const response = await fetch('http://localhost:4000/user/login', requestOptions);
           const data = await response.json();
           console.log(data)
+
+          if (data.errors || data.message){
+              // alert to error
+              alert("Incorrect username or password.");
+          }
           //auth token is saved as a cookie
+          // if it was successful
 
+          if (data.token){
+            // dispatch() from AuthContext with auth token from response
+            console.log("Successful login...");
+            this.context.dispatch({
+                type: "LOGIN",
+                payload: {
+                    ...data, 
+                    email: this.state.email
+                }
+            });
+          }
 
-          // dispatch() from AuthContext with auth token from response
-          // TODO
-      }
+    }
 
     render(){
         // mostly copied from react-bootstrap page examples
@@ -75,6 +91,7 @@ class  Login extends React.Component {
         </Container>
         </div>
         );
-        }
-        };
+    }
+};
+
 export default Login;

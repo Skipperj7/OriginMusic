@@ -1,6 +1,6 @@
 import Image from 'react-bootstrap/Image';
 import { useContext } from 'react';
-import { AuthContext } from '../../../App.js';
+import { AuthContext } from '../../../context.js';
 
 
 function ProfileMain() {
