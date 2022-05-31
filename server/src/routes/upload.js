@@ -126,7 +126,7 @@ router.get('/audio/:filename', (req, res) => {
 
 // @route GET /audio/:filename
 // @desc Display Audio File
-router.get('/song', async (req, res) => {
+router.post('/song', async (req, res) => {
   try {
     const {songID} = req.body
     if(songID==null){
