@@ -10,6 +10,7 @@ import Likes from './Components/Library/Likes/Likes';
 import Playlists from './Components/Library/Playlists/Playlists';
 import Following from './Components/Library/Following/Following';
 import Login from './Components/Login/Login.js';
+import Upload from './Components/Upload/Upload';
 import AudioPlayer from "./Components/Music Player/AudioPlayer";
 export const AuthContext = createContext();
 const initialState = {
@@ -55,6 +56,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home/>} />
               <Route path='/login' element={<Login/>} />
+              <Route path='/upload' element={<Upload/>} />
               <Route path='/library/overview' element={<Library/>}/>
               <Route path='/library/likes' element={<Likes/>}/>
               <Route path='/library/playlists' element={<Playlists/>}/>

@@ -4,6 +4,7 @@ const user = require("./routes/user");
 const InitiateMongoServer = require("./config/db");
 const methodOverride = require('method-override');
 const upload = require("./routes/upload");
+const images = require("./routes/images");
 const collections = require("./routes/collections");
 const search=require("./routes/queries");
 const comment=require("./routes/comment");
@@ -22,7 +23,8 @@ var corsOptions = {
 // Middleware
 app.use(cors(corsOptions))
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(methodOverride('_method'));
 
 
@@ -62,6 +64,8 @@ app.use("/search", search);
  * Method - *
  */
 app.use("/comment", comment);
+
+app.use("/images", images);
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);
