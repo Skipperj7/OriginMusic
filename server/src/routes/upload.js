@@ -133,8 +133,10 @@ router.get('/audio/:filename', (req, res) => {
     // Check if image
     if (file.contentType === 'audio/mpeg') {
       // Read output to browser
+
       const readstream = gfs.createReadStream(file.filename);
       readstream.pipe(res);
+
     } else {
       res.status(404).json({
         err: 'Not an mp3'

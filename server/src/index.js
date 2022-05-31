@@ -16,9 +16,11 @@ const app = express();
 
 // PORT
 const PORT = process.env.PORT || 4000;
-
+var corsOptions = {
+  origin: ['http://localhost:4000',"http://localhost:3000"],
+  credentials: true };
 // Middleware
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));

@@ -54,6 +54,7 @@ function App() {
             {/* used to be called Switch - see https://stackoverflow.com/questions/63124161/attempted-import-error-switch-is-not-exported-from-react-router-dom */}
             <Routes>
               <Route path='/' element={<Home/>} />
+              <Route path='/login' element={<Login/>} />
               <Route path='/library/overview' element={<Library/>}/>
               <Route path='/library/likes' element={<Likes/>}/>
               <Route path='/library/playlists' element={<Playlists/>}/>
@@ -62,7 +63,7 @@ function App() {
               <Route path='/music' element={<AudioPlayer tracks={ [{
                 title: "Cali",
                 artist: "Wataboi",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                audioSrc: "http://localhost:4000/upload/audio/13902de32eb486ad142038709905bcb1.mp3",
                 image: "https://uploads.codesandbox.io/uploads/user/dad4f6c8-47d8-4aa2-bdbe-07742762e99b/GQMO-artwork3.jpg",
                 color: "#00aeb0"
               }]} />}/>

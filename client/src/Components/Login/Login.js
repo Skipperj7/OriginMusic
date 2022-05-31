@@ -33,6 +33,7 @@ class  Login extends React.Component {
           event.preventDefault();
           // POST request using fetch with async/await
           const requestOptions = {
+              credentials: 'include',
               method: 'POST',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({email:this.state.email,password: this.state.password})

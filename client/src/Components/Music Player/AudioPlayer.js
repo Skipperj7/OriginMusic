@@ -56,12 +56,18 @@ const AudioPlayer = ({ tracks }) => {
 
     };
 
-    const toPrevTrack = () => {
-        if (trackIndex - 1 < 0) {
-            setTrackIndex(tracks.length - 1);
-        } else {
-            setTrackIndex(trackIndex - 1);
-        }
+    const toPrevTrack = async () => {
+        // POST request using fetch with async/await
+        const requestOptions = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({songID:audioSrc.substring(audioSrc.lastIndexOf("audio/")+6,audioSrc.length-4)})
+        };
+        console.log(audioSrc.substring(0,audioSrc.length-4))
+        const response = await fetch('http://localhost:4000/collections/like', requestOptions);
+        const data = await response.json();
+        console.log(data)
     };
 
     const toNextTrack = () => {
