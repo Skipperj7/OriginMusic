@@ -28,8 +28,8 @@ function MainPage() {
                 <Route path='/music' element={<AudioPlayer tracks={ [{
                     title: "Cali",
                     artist: "Wataboi",
-                    audioSrc: "http://localhost:4000/upload/audio/13902de32eb486ad142038709905bcb1.mp3",
-                    image: "https://uploads.codesandbox.io/uploads/user/dad4f6c8-47d8-4aa2-bdbe-07742762e99b/GQMO-artwork3.jpg",
+                    audioSrc: "http://localhost:4000/upload/audio/a60fe3efdf786fcd9cce3c8a30d07da0.mp3",
+                    image: "http://localhost:4000/images/image/a60fe3efdf786fcd9cce3c8a30d07da0.png",
                     color: "#00aeb0"
                 }]} />}/>
                 {/* <Route path='/about' component={Contact}/> */}
