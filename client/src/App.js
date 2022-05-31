@@ -10,7 +10,7 @@ import Likes from './Components/Library/Likes/Likes';
 import Playlists from './Components/Library/Playlists/Playlists';
 import Following from './Components/Library/Following/Following';
 import Login from './Components/Login/Login.js';
-
+import AudioPlayer from "./Components/Music Player/AudioPlayer";
 export const AuthContext = createContext();
 const initialState = {
   isAuthenticated: true,
@@ -59,6 +59,13 @@ function App() {
               <Route path='/library/playlists' element={<Playlists/>}/>
               <Route path='/library/following' element={<Following/>}/>
               <Route path='/profile/home' element={<ProfileHome/>}/>
+              <Route path='/music' element={<AudioPlayer tracks={ [{
+                title: "Cali",
+                artist: "Wataboi",
+                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                image: "https://uploads.codesandbox.io/uploads/user/dad4f6c8-47d8-4aa2-bdbe-07742762e99b/GQMO-artwork3.jpg",
+                color: "#00aeb0"
+              }]} />}/>
                 {/* <Route path='/about' component={Contact}/> */}
             </Routes>
         </BrowserRouter>
