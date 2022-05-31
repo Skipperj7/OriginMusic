@@ -9,7 +9,7 @@ class  Login extends React.Component {
         // initialize username and password so form is controlled
         this.state = 
         {
-            username: '', 
+            email: '',
             password: ''
         };
     
@@ -29,13 +29,22 @@ class  Login extends React.Component {
         });
       }
     
-      handleFormSubmit(event) {
-        event.preventDefault();
-        // send data to server and authenticate here
-        // TODO
+      async handleFormSubmit(event) {
+          event.preventDefault();
+          // POST request using fetch with async/await
+          const requestOptions = {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({email:this.state.email,password: this.state.password})
+          };
+          const response = await fetch('http://localhost:4000/user/login', requestOptions);
+          const data = await response.json();
+          console.log(data)
+          //auth token is saved as a cookie
 
-        // dispatch() from AuthContext with auth token from response
-        // TODO
+
+          // dispatch() from AuthContext with auth token from response
+          // TODO
       }
 
     render(){
@@ -49,8 +58,8 @@ class  Login extends React.Component {
             <div>
             <Form className="loginForm" onSubmit={this.handleFormSubmit}>
         <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
-            <Form.Control required type="username" placeholder="Enter username" name="username" value={this.state.username} onChange={this.handleInputChange}/>
+            <Form.Label>Email</Form.Label>
+            <Form.Control required type="email" placeholder="Enter email" name="email" value={this.state.email} onChange={this.handleInputChange}/>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">

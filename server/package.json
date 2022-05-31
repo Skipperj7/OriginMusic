@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec \"npm run lint && node src/index.js\"",
+    "dev": "nodemon  src/index.js",
     "one-shot": "node src/index.js",
     "lint": "npx eslint src/**",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,10 +16,25 @@
     "eslint": "^8.14.0"
   },
   "dependencies": {
+    "audd.io": "^3.0.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
     "concurrently": "^7.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.18.1",
+    "express-jwt": "^6.0.0",
+    "express-validator": "^6.14.0",
+    "form-data": "^4.0.0",
+    "gridfs-stream": "^1.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
     "mongodb": "^4.5.0",
-    "mongoose": "^6.3.2",
-    "nodemon": "^2.0.16"
+    "mongoose": "^5.13.7",
+    "multer": "^1.4.4",
+    "multer-gridfs-storage": "^5.0.2",
+    "node-fetch": "^3.2.4",
+    "nodemon": "^2.0.16",
+    "rootpath": "^0.1.2"
   }
 }
