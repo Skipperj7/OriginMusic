@@ -52,10 +52,8 @@ const AudioPlayer = ({ tracks }) => {
 
     const onScrubEnd = () => {
         // If not already playing, start
-        if (!isPlaying && audioRef.current.paused) {
-            setIsPlaying(true);
-        }
-        startTimer();
+
+
     };
 
     const toPrevTrack = () => {
@@ -76,19 +74,18 @@ const AudioPlayer = ({ tracks }) => {
 
     useEffect(() => {
         if (isPlaying &&audioRef.current.paused) {
-            audioRef.current.play();
-            startTimer();
+            setTimeout(async function () {
+                audioRef.current.play();
+                startTimer();
+            }, 50);
         } else{
-            if(!audioRef.current.paused) {
-                audioRef.current.pause();
-            }
+            audioRef.current.pause();
         }
     }, [isPlaying]);
 
     // Handles cleanup and setup when changing tracks
     useEffect(() => {
         audioRef.current.pause();
-
         audioRef.current = new Audio(audioSrc);
         setTrackProgress(audioRef.current.currentTime);
 
