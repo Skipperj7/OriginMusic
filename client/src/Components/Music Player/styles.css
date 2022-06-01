@@ -88,5 +88,25 @@ input[type="range"] {
     fill: black;
 }
 
+.author{
+    font-size: 18px;
+    font-weight: bolder;
 
+}
+
+.com{
+
+}
+.date{
+
+    font-weight: lighter;
+    font-size: 12px;
+}
+.comment{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    align-content: center;
+    align-self: center;
+    text-align: center;
+}
 

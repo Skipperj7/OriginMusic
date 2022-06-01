@@ -36,7 +36,6 @@ const storage = new GridFsStorage({
                     return reject(err);
                 }
                 const filename = req.body.songName + path.extname(file.originalname);
-
                 const fileInfo = {
                     id:req.body.songName,
                     filename: filename,
@@ -56,6 +55,8 @@ const upload = multer({ storage});
 router.post('/', auth , upload.single('file'), async (req,res)=>{
     res.json({file: req.file});
 });
+
+
 
 // @route GET /image/:filename
 // @desc Display Image

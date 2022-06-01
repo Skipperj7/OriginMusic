@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
 const express = require("express");
 const router = express.Router();
-const { Audd } = require('audd.io');
-const audd = new Audd('bb643879afce71f0cac3bc9aeb844c11');//hard coded throw away key will expire May 28th
+
 const fs = require('fs');
 const multer = require('multer');
 const Comment = require('../model/comment');
 const Playlist = require('../model/playlist');
+var request = require('request');
 
 const mongoURI = "mongodb://mongo:27017/uploads";
 
@@ -61,10 +61,10 @@ router.post("/song", async (req, res) => {
 if (!fs.existsSync('./tmp/data/musicSearch/')){
   fs.mkdirSync('./tmp/data/musicSearch/', { recursive: true });
 }
+/*
 // @route POST /
 // @desc Search for song name
 router.post('/audioSearch', multer({ dest: './tmp/data/musicSearch/' }).single('file'), (req,res)=>{
-
 
   audd.recognize.fromFile('./tmp/data/musicSearch/'+req.file.filename).then((response) => {
     const result = response.result;
@@ -74,20 +74,27 @@ router.post('/audioSearch', multer({ dest: './tmp/data/musicSearch/' }).single('
   }, console.log);
   fs.unlinkSync('./tmp/data/musicSearch/'+req.file.filename);
 });
-
+*/
 // @route POST /
 // @desc Search songs in db by name
-router.post('/findByAudio', multer({ dest: './tmp/data/musicSearch/' }).single('file'), (req,res)=>{
-
-  audd.recognize.fromFile('./tmp/data/musicSearch/'+req.file.filename).then(async (response) => {
-    const result = response.result;
-    if (result) {
-      console.log(result.title.toString());
-      const vals = await getSong(result.title.toString()); //full text search abstracted to function
-      res.json(vals);
-    } else console.log('Unable to match that song :(');
-  }, console.log);
-  fs.unlinkSync('./tmp/data/musicSearch/'+req.file.filename);
+router.post('/findByAudio', multer({ dest: './tmp/data/musicSearch/' }).single('file'), async (req, res) => {
+  const requestOptions = {
+    method: 'POST',
+    url:'https://api.audd.io/',
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    formData:{
+      "api_token":"67a06f1ccbcb9941ed4602d0690e3e18",
+      file:fs.createReadStream('./tmp/data/musicSearch/' + req.file.filename)
+    }
+  };
+  request(requestOptions, function (err, re, body) {
+    if(err) console.log(err);
+    console.log(body)
+    res.json(re)
+  });
+  //fs.unlinkSync('./tmp/data/musicSearch/' + req.file.filename);
 });
 /**
  * @method - GET

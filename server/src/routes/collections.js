@@ -151,9 +151,11 @@ router.post("/playlist/addsong", auth, async (req, res) => {
     if(!playlist.songs.includes(songID)) {
       playlist.songs.push(songID);
 
-
-      await playlist.save();
     }
+    else{
+      playlist.songs.remove(songID);
+    }
+    await playlist.save();
 
     res.json(playlist);
   } catch (e) {
@@ -186,6 +188,26 @@ router.post("/playlist/removesong", auth, async (req, res) => {
       await playlist.save();
     }
 
+    res.json(playlist);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+/**
+ * @method - POST
+ * @description - add song to playlist
+ * @param - /collections/playlist/
+ */
+
+router.post("/playlist", async (req, res) => {
+  try {
+    const {playlistID}=req.body;
+    const playlist = await Playlist.findOne({pID:playlistID});
+    if (!playlist)
+      return res.status(400).json({
+        message: "Couldn't find playlist"
+      });
     res.json(playlist);
   } catch (e) {
     res.send({ message: e});

@@ -47,6 +47,32 @@ router.post("/song", auth, async (req, res) => {
   }
 });
 
+/**
+ * @method - POST
+ * @description - get Comment on a song
+ * @param - /comment/get
+ */
+router.post("/get", async (req, res) => {
+  try {
+    // request.user is getting fetched from Middleware after token authentication
+
+    const {songID}=req.body;
+    if(songID==null){
+      return res.status(400).json({
+        message: "Please Enter Song ID"
+      });
+    }
+    let comments = await Comment.findOne({songID});
+    if (!comments)
+      return res.status(400).json({
+        message: "Comment Section Does Not Exist"
+      });
+    res.json(comments);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
 
 
 module.exports = router;

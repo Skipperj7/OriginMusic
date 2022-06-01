@@ -42,14 +42,13 @@ const Likes = () => {
                 let img= await  URL.createObjectURL(response2)
                 //songsArr=songsArr.filter((value,index)=>data.indexOf(value)==index)
                 if(!songNames.includes(element.toString())) {
-                    setSongs(songsArr => [...songsArr, <div className="SmallMusicBox" key={element}>
+                    setSongs(songsArr => [...songsArr, <div className="child" key={element}>
                             <Container>
                                 <Button href={"/music/"+data._id}>
                                     <Image width="200" height="200" src={img} fluid />
                                 </Button>
-
-                                <p>{data.metadata.songName}</p>
-                                <p>{data.metadata.artist}</p>
+                                <p className="Name">{data.metadata.songName}</p>
+                                <p className="Artist">{data.metadata.artist}</p>
                             </Container>
                     </div>
                     ]);
@@ -72,9 +71,6 @@ const Likes = () => {
         <Container fluid>
             <div className="libraryButtonGroup">
                 <ButtonGroup>
-                    <div className="libraryButton">
-                        <Button className="bg-transparent " href="/library/overview" variant="link">Overview</Button>
-                    </div>
 
                     <div className="libraryButtonSelected">
                         <Button className="bg-transparent " href="/library/likes" variant="link">Likes</Button>
@@ -87,7 +83,9 @@ const Likes = () => {
             </div>
         </Container>
         <hr style={{ width: "100%"}} />
+        <div className="wrapper">
         <div>{songsArr}</div>
+        </div>
     </div>
     )
 }

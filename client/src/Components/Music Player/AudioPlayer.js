@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioControls from "./AudioControls";
+import Comments from "./Comments";
 import "./styles.css";
 import {useParams} from "react-router-dom";
 
@@ -108,6 +109,19 @@ const AudioPlayer = () => {
         console.log(data2)
     };
 
+     async function follow() {
+// POST request using fetch with async/await
+        const requestOptions = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({artistName: artist})
+        };
+        const response = await fetch('http://localhost:4000/collections/follow', requestOptions);
+        const data = await response.json();
+        console.log(data)
+    }
+
     useEffect(() => {
         if (isPlaying && audioRef.current.paused) {
             setTimeout(async function () {
@@ -169,6 +183,7 @@ const AudioPlayer = () => {
     }
 
     return (
+        <div>
         <div className="audio-player">
             <div className="track-info">
                 <img
@@ -176,7 +191,7 @@ const AudioPlayer = () => {
                     src={images}
                 />
                 <h2 className="title">{songname}</h2>
-                <h3 className="artist">{artist}</h3>
+                <h3 className="artist" >{artist}</h3>
                 <AudioControls
                     isPlaying={isPlaying}
                     onPrevClick={toPrevTrack}
@@ -196,6 +211,16 @@ const AudioPlayer = () => {
                     style={{background: trackStyling}}
                 />
             </div>
+            <div>
+                <button onClick={follow}>Follow {artist}</button>
+            </div>
+        </div>
+
+    <div>
+        <Comments
+        id={id}
+        />
+    </div>
         </div>
     );
 };

@@ -167,6 +167,29 @@ router.get("/me", auth, async (req, res) => {
 
 /**
  * @method - POST
+ * @description - Get LoggedIn User
+ * @param - /user/get
+ */
+
+router.post("/get", async (req, res) => {
+  try {
+    const {username} = req.body;
+    let artist = await User.findOne({
+      "username":username
+    });
+    if (!artist)
+      return res.status(400).json({
+        message: "Artist Does Not Exist"
+      });
+
+    res.json({username:artist.username,profilePic:artist.profilePic});
+  } catch (e) {
+    res.send({ message: "Error in Fetching user" });
+  }
+});
+
+/**
+ * @method - POST
  * @description - Change Email
  * @param - /user/changeEmail
  */
@@ -178,6 +201,25 @@ router.post("/changeEmail",[
     const user = await User.findById(req.user.id);
     const { email } = req.body;
     user.email=email;
+    await user.save(); //this might report unresolved but it lies
+    res.json(user);
+  } catch (e) {
+    res.send({ message: e});
+  }
+});
+
+/**
+ * @method - POST
+ * @description - Change Profile Pic
+ * @param - /user/changePic
+ */
+
+router.post("/changePic",auth, async (req, res) => {
+  try {
+    // request.user is getting fetched from Middleware after token authentication
+    const user = await User.findById(req.user.id);
+    const { profilePic } = req.body;
+    user.profilePic=profilePic;
     await user.save(); //this might report unresolved but it lies
     res.json(user);
   } catch (e) {

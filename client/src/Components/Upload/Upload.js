@@ -125,19 +125,21 @@ class Upload extends Component {
         return (
             <div>
                 <h1>
-                    GeeksforGeeks
+                    Upload
                 </h1>
-                <h3>
-                    File Upload using React!
-                </h3>
+
                 <div>
-                    <input type="file"  onChange={this.onFileChange} />
-                    <div>
+                    <h4>Select mp3 audio file</h4>
+                    <input className="pad" type="file"  onChange={this.onFileChange} />
+
+                    <div className="pad">
                         <input type="file" onChange={this.onImageChange} />
+                        <h4>Select png image file</h4>
                         <img width="200" height="200" src={this.state.image}/>
                     </div>
+                    <h4>Song Name</h4>
                     <input type="text" value={this.state.name} onChange={this.onTextChange} />
-                    <button onClick={this.onFileUpload}>
+                    <button className="sbt" onClick={this.onFileUpload}>
                         Upload!
                     </button>
                 </div>
