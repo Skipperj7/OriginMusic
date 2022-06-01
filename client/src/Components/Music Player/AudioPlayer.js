@@ -126,10 +126,9 @@ const AudioPlayer = () => {
 
         };
         const response2 = await fetch('http://localhost:4000/images/image/' + id + ".png", requestOptions2).then((res) => res.blob());
-        console.log(response2)
-        console.log(data)
          let img = await URL.createObjectURL(response2)
         setImages(img)
+        console.log(data) //checky way to force render
     }
     if (!got) {
         getItems()
