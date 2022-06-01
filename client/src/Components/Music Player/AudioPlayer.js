@@ -71,8 +71,41 @@ const AudioPlayer = () => {
         console.log(data)
     };
 
-    const toNextTrack = () => {
+    const toNextTrack = async () => {
+        const requestOptions = {
+            credentials: 'include',
+            method: 'GET',
+        };
+        const response = await fetch('http://localhost:4000/user/me', requestOptions);
+        const data = await response.json();
+        console.log(data)
+        let PID
+        if(data.playlistIDs.length == 0){
+            const requestOptions2 = {
+                credentials: 'include',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({title: "My playlist"})
+            };
+            const response2 = await fetch('http://localhost:4000/collections/createPlaylist', requestOptions2);
+             const data2 = await response2.json();
+             PID=data2.pID
+            console.log(data)
+        }
+        else{
+            PID=data.playlistIDs[0]
+        }
 
+// POST request using fetch with async/await
+        const requestOptions2 = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({songID: id, playlistID:PID})
+        };
+        const response2 = await fetch('http://localhost:4000/collections/playlist/addsong', requestOptions2);
+        const data2 = await response2.json();
+        console.log(data2)
     };
 
     useEffect(() => {

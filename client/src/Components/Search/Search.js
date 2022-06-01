@@ -51,7 +51,7 @@ const Search = () => {
                 if(!songNames.includes(element.toString())) {
                     setSongs(songsArr => [...songsArr, <div className="child" key={element}>
                         <Container className="SmallMusicBox">
-                            <Button href="/music">
+                            <Button href={"/music/"+data._id}>
                                 <Image width="200" height="200" src={img} fluid />
                             </Button>
 

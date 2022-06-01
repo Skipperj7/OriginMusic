@@ -134,7 +134,7 @@ class Upload extends Component {
                     <input type="file"  onChange={this.onFileChange} />
                     <div>
                         <input type="file" onChange={this.onImageChange} />
-                        <img src={this.state.image}/>
+                        <img width="200" height="200" src={this.state.image}/>
                     </div>
                     <input type="text" value={this.state.name} onChange={this.onTextChange} />
                     <button onClick={this.onFileUpload}>
