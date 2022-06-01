@@ -46,7 +46,7 @@ let getSong= async function (search) {
  * @description - search for song by name
  * @param - /search/song
  */
-router.get("/song", async (req, res) => {
+router.post("/song", async (req, res) => {
   try {
     const vals=await getSong(req.body.songName); //full text search abstracted to function
     res.json(vals);
@@ -94,7 +94,7 @@ router.post('/findByAudio', multer({ dest: './tmp/data/musicSearch/' }).single('
  * @description - get songs in a playlist
  * @param - /search/playlist
  */
-router.get("/playlist", async (req, res) => {
+router.post("/playlist", async (req, res) => {
   try {
     const playlist=await Playlist.findOne({pID:req.body.playlistID})
     res.json(playlist);

@@ -81,7 +81,7 @@ const ProfileMain = () => {
     return  (
     <div>
         <p>Profile pic goes here</p>
-        <Image width="300" height="300"
+        <Image width="40" height="40"
                src={images}
                rounded={true}></Image>
         <p>{username}</p>

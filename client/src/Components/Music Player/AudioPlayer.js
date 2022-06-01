@@ -1,27 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
 import AudioControls from "./AudioControls";
 import "./styles.css";
+import {useParams} from "react-router-dom";
 
 /*
  * Read the blog post here:
  * https://letsbuildui.dev/articles/building-an-audio-player-with-react-hooks
  */
-const AudioPlayer = ({ tracks }) => {
+const AudioPlayer = () => {
     // State
     const [trackIndex, setTrackIndex] = useState(0);
     const [trackProgress, setTrackProgress] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    const {id} = useParams()
 
     // Destructure for conciseness
-    const { title, artist, color, image, audioSrc } = tracks[trackIndex];
+    //const { title, artist, color, image, audioSrc } = tracks[trackIndex];
 
     // Refs
-    const audioRef = useRef(new Audio(audioSrc));//audiosrc is a url to the mp3 file
+    const audioRef = useRef(new Audio("http://localhost:4000/upload/audio/" + id + ".mp3"));//audiosrc is a url to the mp3 file
     const intervalRef = useRef();
     const isReady = useRef(false);
 
     // Destructure for conciseness
-    const { duration } = audioRef.current;
+    const {duration} = audioRef.current;
 
     const currentPercentage = duration
         ? `${(trackProgress / duration) * 100}%`
@@ -62,29 +64,24 @@ const AudioPlayer = ({ tracks }) => {
             credentials: 'include',
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({songID:audioSrc.substring(audioSrc.lastIndexOf("audio/")+6,audioSrc.length-4)})
+            body: JSON.stringify({songID: id})
         };
-        console.log(audioSrc.substring(0,audioSrc.length-4))
         const response = await fetch('http://localhost:4000/collections/like', requestOptions);
         const data = await response.json();
         console.log(data)
     };
 
     const toNextTrack = () => {
-        if (trackIndex < tracks.length - 1) {
-            setTrackIndex(trackIndex + 1);
-        } else {
-            setTrackIndex(0);
-        }
+
     };
 
     useEffect(() => {
-        if (isPlaying &&audioRef.current.paused) {
+        if (isPlaying && audioRef.current.paused) {
             setTimeout(async function () {
                 audioRef.current.play();
                 startTimer();
             }, 50);
-        } else{
+        } else {
             audioRef.current.pause();
         }
     }, [isPlaying]);
@@ -92,7 +89,7 @@ const AudioPlayer = ({ tracks }) => {
     // Handles cleanup and setup when changing tracks
     useEffect(() => {
         audioRef.current.pause();
-        audioRef.current = new Audio(audioSrc);
+        audioRef.current = new Audio("http://localhost:4000/upload/audio/" + id + ".mp3");
         setTrackProgress(audioRef.current.currentTime);
 
         isReady.current = true;
@@ -106,16 +103,47 @@ const AudioPlayer = ({ tracks }) => {
             clearInterval(intervalRef.current);
         };
     }, []);
+    const [images, setImages] = React.useState("")
+    const [songname, setsong] = React.useState("")
+    const [artist, setartist] = React.useState("")
+    const [got,setgot] = React.useState(false)
+    async function getItems()
+    {
+        const requestOptions = {
+            credentials: 'include',
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({songID: id})
+        };
+        const response = await fetch('http://localhost:4000/upload/song', requestOptions);
+         let data = await response.json();
+         setsong(data.metadata.songName)
+        setartist(data.metadata.artist)
+
+        const requestOptions2 = {
+            credentials: 'include',
+            method: 'GET',
+
+        };
+        const response2 = await fetch('http://localhost:4000/images/image/' + id + ".png", requestOptions2).then((res) => res.blob());
+        console.log(response2)
+        console.log(data)
+         let img = await URL.createObjectURL(response2)
+        setImages(img)
+    }
+    if (!got) {
+        getItems()
+        setgot(true)
+    }
 
     return (
         <div className="audio-player">
             <div className="track-info">
                 <img
                     className="artwork"
-                    src={image}
-                    alt={`track artwork for ${title} by ${artist}`}
+                    src={images}
                 />
-                <h2 className="title">{title}</h2>
+                <h2 className="title">{songname}</h2>
                 <h3 className="artist">{artist}</h3>
                 <AudioControls
                     isPlaying={isPlaying}
@@ -133,7 +161,7 @@ const AudioPlayer = ({ tracks }) => {
                     onChange={(e) => onScrub(e.target.value)}
                     onMouseUp={onScrubEnd}
                     onKeyUp={onScrubEnd}
-                    style={{ background: trackStyling }}
+                    style={{background: trackStyling}}
                 />
             </div>
         </div>

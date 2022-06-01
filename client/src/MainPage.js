@@ -9,6 +9,7 @@ import Following from './Components/Library/Following/Following';
 import Login from './Components/Login/Login.js';
 import Upload from './Components/Upload/Upload';
 import AudioPlayer from "./Components/Music Player/AudioPlayer";
+import Search from "./Components/Search/Search";
 
 function MainPage() {
     return (
@@ -25,13 +26,8 @@ function MainPage() {
                 <Route path='/library/playlists' element={<Playlists/>}/>
                 <Route path='/library/following' element={<Following/>}/>
                 <Route path='/profile/home' element={<ProfileHome/>}/>
-                <Route path='/music' element={<AudioPlayer tracks={ [{
-                    title: "Cali",
-                    artist: "Wataboi",
-                    audioSrc: "http://localhost:4000/upload/audio/a60fe3efdf786fcd9cce3c8a30d07da0.mp3",
-                    image: "http://localhost:4000/images/image/a60fe3efdf786fcd9cce3c8a30d07da0.png",
-                    color: "#00aeb0"
-                }]} />}/>
+                <Route path='/music/:id' element={<AudioPlayer/>}/>
+                <Route path='/search/:name' element={<Search/>}/>
                 {/* <Route path='/about' component={Contact}/> */}
             </Routes>
         </BrowserRouter>
