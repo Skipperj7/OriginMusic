@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
 const express = require("express");
 const router = express.Router();
-
+const FormData = require('form-data');
 const fs = require('fs');
 const multer = require('multer');
 const Comment = require('../model/comment');
 const Playlist = require('../model/playlist');
 var request = require('request');
+const fetch = require('node-fetch');
 
 const mongoURI = "mongodb://mongo:27017/uploads";
 
@@ -78,22 +79,41 @@ router.post('/audioSearch', multer({ dest: './tmp/data/musicSearch/' }).single('
 // @route POST /
 // @desc Search songs in db by name
 router.post('/findByAudio', multer({ dest: './tmp/data/musicSearch/' }).single('file'), async (req, res) => {
-  const requestOptions = {
-    method: 'POST',
-    url:'https://api.audd.io/',
-    headers: {
-      "Content-Type": "multipart/form-data"
-    },
-    formData:{
-      "api_token":"67a06f1ccbcb9941ed4602d0690e3e18",
-      file:fs.createReadStream('./tmp/data/musicSearch/' + req.file.filename)
-    }
-  };
-  request(requestOptions, function (err, re, body) {
-    if(err) console.log(err);
-    console.log(body)
-    res.json(re)
-  });
+
+  // Create an object of formData
+  const formData = new FormData();
+
+  // Update the formData object
+  formData.append("api_token","test");
+  formData.append("file",fs.createReadStream('./tmp/data/musicSearch/' + req.file.filename));
+
+  // Details of the uploaded file
+  // Request made to the backend api
+  // Send formData object
+
+  // POST request using fetch with async/await
+  try {
+    const requestOptions = {
+      credentials: 'include',
+      method: 'POST',
+      body: formData
+    };
+    const response = await fetch('https://api.audd.io/', requestOptions);
+    const data = await response.json();
+    console.log(data)
+    console.log(data.result.title)
+    const vals = await getSong(data.result.title); //full text search abstracted to function
+    console.log(vals)
+    res.json(vals);
+  }
+  catch {
+    const vals = await getSong(req.file.filename.replace(/\.[^/.]+$/, "")); //full text search abstracted to function
+    console.log(vals)
+    res.json(vals);
+  }
+
+ // });
+
   //fs.unlinkSync('./tmp/data/musicSearch/' + req.file.filename);
 });
 /**
