@@ -5,6 +5,10 @@ import Login from './Components/Login/Login.js';
 import MainPage from './MainPage.js';
 
 import { AuthContext } from './context.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from "./Components/Home/Home";
+import Upload from "./Components/Upload/Upload";
+import CreateAccount from "./Components/Login/CreateAccount";
 
 const initialState = {
   isAuthenticated: false,
@@ -39,6 +43,7 @@ const reducer = (state, action) => {
         isAuthenticated: true,
         token: action.payload.token
       };
+      window.location.href='/'
       break;
     case "LOGOUT":
       localStorage.clear();
@@ -56,12 +61,13 @@ const reducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   // If we have a token, then the user must be authenticated
   // im sure this is a scuffed solution to a basic problem
   // but without this the, any link change redirects to login
   state.isAuthenticated = !!localStorage.getItem('token');
+  if(state.isAuthenticated){
 
+  }
   console.log(state.user);
 
   return (
@@ -70,7 +76,11 @@ function App() {
       state,
       dispatch
     }}>
-    <div className="MainApp">{!state.isAuthenticated ? <Login /> : <MainPage/>} </div>
+    <div className="MainApp">{!state.isAuthenticated ? (<BrowserRouter><Routes>
+      <Route path='/' element={<Login/>} />
+      <Route path='/login' element={<Login/>} />
+      <Route path='/createAccount' element={<CreateAccount/>} />
+    </Routes></BrowserRouter>): <MainPage/>} </div>
     </AuthContext.Provider>
   );
 }
