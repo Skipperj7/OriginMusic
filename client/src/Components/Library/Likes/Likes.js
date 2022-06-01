@@ -44,7 +44,7 @@ const Likes = () => {
                 if(!songNames.includes(element.toString())) {
                     setSongs(songsArr => [...songsArr, <div className="SmallMusicBox" key={element}>
                             <Container>
-                                <Button href="/music">
+                                <Button href={"/music/"+data._id}>
                                     <Image width="200" height="200" src={img} fluid />
                                 </Button>
 
