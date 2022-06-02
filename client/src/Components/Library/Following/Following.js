@@ -45,7 +45,9 @@ const Following = () => {
                 if(!songNames.includes(element.toString())) {
                     setSongs(songsArr => [...songsArr, <div className="child" key={element}>
                         <Container>
+                            <Button href={"/search/"+data.username}>
                             <Image width="200" height="200" src={img} fluid />
+                            </Button>
                             <div>
                                 <p className="Name">{data.username}</p>
                             </div>
