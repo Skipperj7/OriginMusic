@@ -27,16 +27,17 @@ const AudioControls = ({
         const response3 = await fetch('http://localhost:4000/user/me',requestOptions3);
         const data3=await response3.json();
         setHeart(data3.likes.includes(id))
-        const requestOptions2 = {
-            credentials: 'include',
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({playlistID:data3.playlistIDs[0]})
-        };
-        const response2 = await fetch('http://localhost:4000/collections/playlist/', requestOptions2);
-        const data2 = await response2.json();
-        setPlaylist(data2.songs.includes(id))
-
+        if(data3.playlistIDs.length!==0) {
+            const requestOptions2 = {
+                credentials: 'include',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({playlistID: data3.playlistIDs[0]})
+            };
+            const response2 = await fetch('http://localhost:4000/collections/playlist/', requestOptions2);
+            const data2 = await response2.json();
+            setPlaylist(data2.songs.includes(id))
+        }
     }
     if (!got) {
         getItems()

@@ -15,9 +15,18 @@ services:
     container_name: nodeApp
     depends_on:
       - mongodb
-    build: .
+    build: server
     restart: unless-stopped
     ports:
       - 4000:4000
+  client:
+    container_name: React
+    depends_on:
+      - mongodb
+      - app
+    build: client
+    restart: unless-stopped
+    ports:
+      - 3000:3000
 volumes:
   db:

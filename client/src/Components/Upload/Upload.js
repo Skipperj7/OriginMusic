@@ -84,6 +84,7 @@ class Upload extends Component {
         const data2 = await response2.json();
         console.log(data)
         console.log(data2)
+        window.location.href='/music/'+data.file.id
     };
 
 
