@@ -39,7 +39,7 @@ const AudioPlayer = () => {
 
         intervalRef.current = setInterval(() => {
             if (audioRef.current.ended) {
-                toNextTrack();
+
             } else {
                 setTrackProgress(audioRef.current.currentTime);
             }
@@ -120,6 +120,7 @@ const AudioPlayer = () => {
         const response = await fetch('http://localhost:4000/collections/follow', requestOptions);
         const data = await response.json();
         console.log(data)
+         setFollowing(!following)
     }
 
     useEffect(() => {
@@ -150,10 +151,14 @@ const AudioPlayer = () => {
             clearInterval(intervalRef.current);
         };
     }, []);
+
+
     const [images, setImages] = React.useState("")
     const [songname, setsong] = React.useState("")
     const [artist, setartist] = React.useState("")
+    const [following, setFollowing] = React.useState(false)
     const [got,setgot] = React.useState(false)
+
     async function getItems()
     {
         const requestOptions = {
@@ -176,6 +181,16 @@ const AudioPlayer = () => {
          let img = await URL.createObjectURL(response2)
         setImages(img)
         console.log(data) //checky way to force render
+
+        const requestOptions3 = {
+            credentials: 'include',
+            method: 'GET',
+
+        };
+        const response3 = await fetch('http://localhost:4000/user/me',requestOptions3);
+        const data3=await response3.json();
+        setFollowing(data3.following.includes(data.metadata.artist))
+
     }
     if (!got) {
         getItems()
@@ -197,6 +212,7 @@ const AudioPlayer = () => {
                     onPrevClick={toPrevTrack}
                     onNextClick={toNextTrack}
                     onPlayPauseClick={setIsPlaying}
+                    id={id}
                 />
                 <input
                     type="range"
@@ -212,7 +228,7 @@ const AudioPlayer = () => {
                 />
             </div>
             <div>
-                <button onClick={follow}>Follow {artist}</button>
+                <button onClick={follow}>{following?"Following":"Follow"} {artist}</button>
             </div>
         </div>
 

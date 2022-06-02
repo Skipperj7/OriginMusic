@@ -110,3 +110,5 @@ input[type="range"] {
     text-align: center;
 }
 
+.red{filter: invert(13%) sepia(66%) saturate(5537%) hue-rotate(356deg) brightness(116%) contrast(124%);}
+.black{}

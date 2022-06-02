@@ -80,7 +80,6 @@ const Search = () => {
                 <div className="libraryButtonGroup">
                     <ButtonGroup>
                         <div className="">
-                            <Button className="bg-transparent " href="/library/overview" variant="link">Overview</Button>
                             <Button className="bg-transparent " href="/library/likes" variant="link">Likes</Button>
                             <Button className="bg-transparent " href="/library/playlists" variant="link">Playlists</Button>
                             <Button className="bg-transparent " href="/library/following" variant="link">Following</Button>

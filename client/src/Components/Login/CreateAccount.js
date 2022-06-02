@@ -71,7 +71,7 @@ class Login extends React.Component {
         // slightly changed some css and centered it
         return (
             <div className='loginContainer'>
-                <h3>Please login</h3>
+                <h3>Please signup</h3>
                 <Container className='loginContainer' fluid>
                     <div>
                         <Form className="loginForm" onSubmit={this.handleFormSubmit}>
@@ -91,11 +91,11 @@ class Login extends React.Component {
                                 Submit
                             </Button>
                         </Form>
-                        <Button variant="secondary" href="/login">
-                            Login
-                        </Button>
                     </div>
                 </Container>
+                <Button className="padTop" variant="secondary" href="/login">
+                    Login
+                </Button>
             </div>
         );
     }
