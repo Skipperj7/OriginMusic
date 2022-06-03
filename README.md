@@ -39,8 +39,8 @@ Or copy it into one of these folders for installing it system-wide:
 # Demo
 Please ensure that you have installed docker.
 
-You can find the 7zip database folder here 
-`https://drive.google.com/file/d/1_3ZafzrfjwUnkJ0ttidBf6lLdQuJi487/view?usp=sharing` 
+You can find the 7zip database folder here
+`https://drive.google.com/file/d/1_3ZafzrfjwUnkJ0ttidBf6lLdQuJi487/view?usp=sharing`
 
 Unzip and copy the database into the docker volume path for your machine.
 #### Windows Docker Volume Path
@@ -63,3 +63,30 @@ The following accounts have already been setup:\
 `gamer@gmail.com password`\
 `mega@gmail.com password1`\
 `test@gmail.com password`
+
+### Login
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425254259470356/2022-06-03_15-44-09.gif" width="600"/>
+
+### Library
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425253714227270/2022-06-03_15-44-09_2.gif" width="600"/>
+
+#### Upload Song
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425254490148884/2022-06-03_15-44-09_1.gif" width="600"/>
+
+#### User Profile
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425255178035231/2022-06-03_15-44-09_6.gif" width="600"/>
+
+### Text Search
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425253433188432/2022-06-03_15-44-09_4.gif" width="600"/>
+
+### Audio Search
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425253986844712/2022-06-03_15-44-09_3.gif" width="600"/>
+
+#### Music Player
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425255958155364/2022-06-03_15-44-09_5.gif" width="600"/>
+
+#### Following Artist
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425254754414652/2022-06-03_15-44-09_8.gif" width="600"/>
+
+#### Liking Song
+<img src="https://cdn.discordapp.com/attachments/965713099443281946/982425255702298674/2022-06-03_15-44-09_7.gif" width="600"/>
