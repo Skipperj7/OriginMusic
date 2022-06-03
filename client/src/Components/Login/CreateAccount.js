@@ -80,7 +80,7 @@ class Login extends React.Component {
                                 <Form.Control required type="email" placeholder="Enter email" name="email" value={this.state.email} onChange={this.handleInputChange}/>
                             </Form.Group>
                             <Form.Group className="mb-3">
-                                <Form.Label>Email</Form.Label>
+                                <Form.Label>Username</Form.Label>
                                 <Form.Control required type="username" placeholder="Enter username" name="username" value={this.state.username} onChange={this.handleInputChange}/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
