@@ -1,8 +1,15 @@
 import { Container, Nav, Navbar, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import React,{Component} from 'react';
 
+function onLogout(){
+  localStorage.clear()
+  window.location.href='/'
+}
+
 function MainNavbar() {
   const [val, setVal] = React.useState("")
+
+
     // mostly copied and then inspired from 
     // https://react-bootstrap.github.io/components/navbar/
     return (
@@ -37,6 +44,7 @@ function MainNavbar() {
           <NavDropdown.Item href="/library/playlists">Playlists</NavDropdown.Item>
           <NavDropdown.Item href="/library/following">Following</NavDropdown.Item>
           <NavDropdown.Item href="/upload">Upload</NavDropdown.Item>
+          <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
           {/* <NavDropdown.Divider />
           <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
         </NavDropdown>

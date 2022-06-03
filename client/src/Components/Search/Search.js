@@ -55,8 +55,8 @@ const Search = () => {
                                 <Image width="200" height="200" src={img} fluid />
                             </Button>
 
-                            <p>{data.metadata.songName}</p>
-                            <p>{data.metadata.artist}</p>
+                            <p className="Name">{data.metadata.songName}</p>
+                            <p className="Artist">{data.metadata.artist}</p>
                         </Container>
                     </div>
                     ]);

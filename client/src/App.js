@@ -50,8 +50,9 @@ const reducer = (state, action) => {
       // clear local storage
       // update newState
       newState = {
-
+        isAuthenticated: false,
       }
+      window.location.href='/'
       break;
     default:
       // nothing
